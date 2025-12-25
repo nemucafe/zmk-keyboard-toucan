@@ -64,7 +64,6 @@
         sensitivity = "2x";
         x-invert;
 	    //sleep;
-		// 右クリック有効か
 		secondary-tap-enable;
     };
 };
