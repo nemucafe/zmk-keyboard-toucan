@@ -64,7 +64,6 @@
         sensitivity = "2x";
         x-invert;
 	    //sleep;
-		secondary-tap-enable;
     };
 };
 
