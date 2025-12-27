@@ -18,29 +18,6 @@
         };
     };
 
-    macros {
-        bt0_l0: bt1_l0 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&bt BT_SEL 0 &to 0>;
-            label = "BT1_L0";
-        };
-
-        bt4_l1: bt4_l1 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&bt BT_SEL 4 &to 1>;
-            label = "BT4_L1";
-        };
-
-        bt1_l0: bt1_l0 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&bt BT_SEL 1 &to 0>;
-            label = "BT1_L0";
-        };
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
@@ -81,7 +58,7 @@
 
         mau {
             bindings = <
-&bootloader  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &mkp MB4  &mkp MB5  &trans  &trans  &trans  &bootloader  &bt BT_CLR  &bt0_L0  &bt1_L0  &trans  &trans  &bt4_L1  &mkp MB2  &trans  &trans  &trans  &trans  &trans  &studio_unlock  &to 0  &to 1  &trans  &trans  &trans  &mkp MB3  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&bootloader  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &mkp MB4  &mkp MB5  &trans  &trans  &trans  &bootloader  &bt BT_CLR  &trans  &trans  &trans  &trans  &trans  &mkp MB2  &trans  &trans  &trans  &trans  &trans  &studio_unlock  &to 0  &to 1  &trans  &trans  &trans  &mkp MB3  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
             >;
 
             label = "MAU";
