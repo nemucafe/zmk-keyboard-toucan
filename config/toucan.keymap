@@ -19,21 +19,21 @@
     };
 
     macros {
-        bt0_L0: bt1_l0 {
+        bt0_l0: bt1_l0 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&bt BT_SEL 0 &to 0>;
             label = "BT1_L0";
         };
 
-        bt4_L1: bt1_L1 {
+        bt4_l1: bt4_l1 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&bt BT_SEL 4 &to 1>;
-            label = "BT1_L1";
+            label = "BT4_L1";
         };
 
-        bt1_L0: bt1_L0 {
+        bt1_l0: bt1_l0 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&bt BT_SEL 1 &to 0>;
