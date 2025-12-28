@@ -4,17 +4,65 @@
 #include <dt-bindings/zmk/pointing.h>
 
 #define BASE 0
-#define NAV  1
-#define SYM  2
-#define ADJ  3
+#define WIN  1
+#define NAV  2
+#define SYM  3
+#define MAU  4
+#define MNAP 5
+#define WNAP 6
 
 / {
-    conditional_layers {
-        compatible = "zmk,conditional-layers";
+    behaviors {
+        // 左手専用ホームロウモッド（右手のキーでhold判定）
+        hml: homerow_mods_left {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&kp>;
+            // 右手のキー位置: 6-11, 18-23, 30-35, 親指39-41
+            hold-trigger-key-positions = <6 7 8 9 10 11 18 19 20 21 22 23 30 31 32 33 34 35 39 40 41>;
+            hold-trigger-on-release;
+        };
 
-        tri_layer {
-            if-layers = <2 3>;
-            then-layer = <7>;
+        // 右手専用ホームロウモッド（左手のキーでhold判定）
+        hmr: homerow_mods_right {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&kp>;
+            // 左手のキー位置: 0-5, 12-17, 24-29, 親指36-38
+            hold-trigger-key-positions = <0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29 36 37 38>;
+            hold-trigger-on-release;
+        };
+
+        // レイヤータップ（hold-while-undecided有効）
+        ltq: layer_tap_quick {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            bindings = <&mo>, <&kp>;
+            hold-while-undecided;
+        };
+
+        // モッドタップ（カスタム設定）
+        mtq: mod_tap_quick {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&kp>;
+            hold-trigger-on-release;
         };
     };
 
@@ -22,33 +70,31 @@
         bt0_l0: bt0_l0 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&bt BT_SEL 0 &to 0>;
+            bindings = <&bt BT_SEL 0 &to BASE>;
             label = "BT0_L0";
+        };
+
+        bt1_l0: bt1_l0 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 1 &to BASE>;
+            label = "BT1_L0";
         };
 
         bt4_l1: bt4_l1 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&bt BT_SEL 4 &to 1>;
+            bindings = <&bt BT_SEL 4 &to WIN>;
             label = "BT4_L1";
-        };
-
-        bt1_l0: bt1_l1 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&bt BT_SEL 1 &to 0>;
-            label = "BT1_L1";
         };
     };
 
     combos {
         compatible = "zmk,combos";
-
         tab {
             bindings = <&kp TAB>;
             key-positions = <15 16>;
         };
-
         stab {
             bindings = <&kp LS(TAB)>;
             key-positions = <14 15>;
@@ -60,54 +106,72 @@
 
         mac {
             display-name = "MAC";
-            bindings = <
-&kp ESCAPE  &kp Q  &kp W  &kp E  &kp R  &kp T  &kp Y  &kp U  &kp I  &kp O  &kp P  &kp BSPC  &kp LCTRL  &kp A  &kp S  &kp D  &kp F  &kp G  &kp H  &kp J  &kp K  &kp L  &kp SEMI  &kp SQT  &kp LSHFT  &kp Z  &kp X  &kp C  &kp V  &kp B  &kp N  &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC  &mt LGUI LANG2  &lt 3 SPACE  &kp LEFT_ALT  &mo 4  &lt 2 ENTER  &lt 5 LANG1
+            bindings = 
+&kp ESCAPE  &kp Q       &kp W       &kp E        &kp R        &kp T          &kp Y      &kp U        &kp I        &kp O       &kp P          &kp BSPC
+&kp LCTRL   &hml LGUI A &hml LALT S &hml LCTRL D &hml LSHFT F &kp G          &kp H      &hmr RSHFT J &hmr RCTRL K &hmr RALT L &hmr RGUI SEMI &kp SQT
+&kp LSHFT   &kp Z       &kp X       &kp C        &kp V        &kp B          &kp N      &kp M        &kp COMMA    &kp DOT     &kp FSLH       &kp ESC
+                                    &mtq LGUI LANG2 &ltq NAV SPACE &kp LEFT_ALT   &mo MAU &ltq SYM ENTER &ltq MNAP LANG1
             >;
         };
 
         win {
             display-name = "WIN";
-            bindings = <
-&kp ESCAPE  &kp Q  &kp W  &kp E  &kp R  &kp T  &kp Y  &kp U  &kp I  &kp O  &kp P  &kp BSPC  &kp LCTRL  &kp A  &kp S  &kp D  &kp F  &kp G  &kp H  &kp J  &kp K  &kp L  &kp SEMI  &kp SQT  &kp LSHFT  &kp Z  &kp X  &kp C  &kp V  &kp B  &kp N  &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC  &mt LCTRL LANG2  &lt 3 SPACE  &kp LEFT_ALT  &mo 4  &lt 2 ENTER  &lt 6 LANG1
+            bindings = 
+&kp ESCAPE  &kp Q       &kp W       &kp E        &kp R        &kp T          &kp Y      &kp U        &kp I        &kp O       &kp P          &kp BSPC
+&kp LCTRL   &hml LGUI A &hml LALT S &hml LCTRL D &hml LSHFT F &kp G          &kp H      &hmr RSHFT J &hmr RCTRL K &hmr RALT L &hmr RGUI SEMI &kp SQT
+&kp LSHFT   &kp Z       &kp X       &kp C        &kp V        &kp B          &kp N      &kp M        &kp COMMA    &kp DOT     &kp FSLH       &kp ESC
+                                    &mtq LCTRL LANG2 &ltq NAV SPACE &kp LEFT_ALT   &mo MAU &ltq SYM ENTER &ltq WNAP LANG1
             >;
         };
 
         nav {
             display-name = "NAV";
-            bindings = <
-&trans  &kp N1  &kp N2  &kp N3  &kp N4  &kp N5  &kp N6  &kp N7  &kp N8  &kp N9  &kp N0  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &trans  &trans  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12  &trans  &trans  &trans  &trans  &trans  &trans
+            bindings = 
+&trans  &kp N1  &kp N2  &kp N3  &kp N4  &kp N5     &kp N6    &kp N7    &kp N8  &kp N9     &kp N0   &trans
+&trans  &trans  &trans  &trans  &trans  &trans     &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &trans   &trans
+&trans  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5     &kp F6    &kp F7    &kp F8  &kp F9     &kp F10  &kp F11
+                        &trans  &trans  &trans     &trans    &trans    &kp F12
             >;
         };
 
         sym {
             display-name = "SYM";
-            bindings = <
-&kp GRAVE  &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT  &kp CARET  &kp AMPS  &kp LPAR  &kp RPAR  &kp BSLH  &kp PIPE  &kp LCTRL  &trans  &trans  &trans  &trans  &trans  &kp MINUS  &kp EQUAL  &kp LBKT  &kp RBKT  &kp KP_MULTIPLY  &kp GRAVE  &kp LSHFT  &trans  &trans  &trans  &trans  &trans  &kp UNDER  &kp PLUS  &kp LBRC  &kp RBRC  &trans  &kp TILDE  &trans  &trans  &trans  &trans  &trans  &trans
+            bindings = 
+&kp GRAVE  &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT     &kp CARET  &kp AMPS   &kp LPAR  &kp RPAR  &kp BSLH         &kp PIPE
+&trans     &trans    &trans  &trans    &trans    &trans        &kp MINUS  &kp EQUAL  &kp LBKT  &kp RBKT  &kp KP_MULTIPLY  &kp GRAVE
+&trans     &trans    &trans  &trans    &trans    &trans        &kp UNDER  &kp PLUS   &kp LBRC  &kp RBRC  &trans           &kp TILDE
+                             &trans    &trans    &trans        &trans     &trans     &trans
             >;
         };
 
         mau {
-            bindings = <
-&bootloader  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &mkp MB4  &mkp MB5  &kp C_VOLUME_UP  &trans  &trans  &bootloader  &bt BT_CLR  &bt0_l0  &bt1_l0  &trans  &trans  &bt4_l1  &mkp MB2  &trans  &kp C_VOLUME_DOWN  &trans  &trans  &trans  &studio_unlock  &to 0  &to 1  &trans  &trans  &trans  &mkp MB3  &trans  &kp C_MUTE  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            display-name = "MAU";
+            bindings = 
+&bootloader    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4     &mkp MB4  &mkp MB5  &kp C_VOL_UP    &trans  &trans  &bootloader
+&bt BT_CLR     &bt0_l0       &bt1_l0       &trans        &trans        &bt4_l1          &mkp MB2  &trans    &kp C_VOL_DOWN  &trans  &trans  &trans
+&studio_unlock &to BASE      &to WIN       &trans        &trans        &trans           &mkp MB3  &trans    &kp C_MUTE      &trans  &trans  &trans
+                                           &trans        &trans        &trans           &trans    &trans    &trans
             >;
-
-            label = "MAU";
         };
 
         mnap {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &kp LG(LS(NUMBER_4))  &kp LA(LC(U))  &kp LA(LC(E))  &kp LA(LC(R))  &kp LA(LC(T))  &kp LA(LC(I))  &kp LA(LC(BACKSPACE))  &trans  &trans  &trans  &kp C_AC_DESKTOP_SHOW_ALL_APPLICATIONS  &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS  &trans  &kp LA(LC(LG(LEFT)))  &kp LA(LC(LEFT))  &kp LA(LC(ENTER))  &kp LA(LC(RIGHT))  &kp LA(LC(LG(RIGHT)))  &kp LA(LC(C))  &trans  &trans  &trans  &trans  &trans  &trans  &kp LA(LC(J))  &kp LA(LC(D))  &kp LA(LC(F))  &kp LA(LC(G))  &kp LA(LC(K))  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            display-name = "MNAP";
+            bindings = 
+&trans  &trans  &trans  &trans                                 &trans                               &kp LG(LS(N4))         &kp LA(LC(U))         &kp LA(LC(E))      &kp LA(LC(R))      &kp LA(LC(T))         &kp LA(LC(I))          &kp LA(LC(BSPC))
+&trans  &trans  &trans  &kp C_AC_DESKTOP_SHOW_ALL_APPLICATIONS &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS    &trans                 &kp LA(LC(LG(LEFT)))  &kp LA(LC(LEFT))   &kp LA(LC(ENTER))  &kp LA(LC(RIGHT))     &kp LA(LC(LG(RIGHT)))  &kp LA(LC(C))
+&trans  &trans  &trans  &trans                                 &trans                               &trans                 &kp LA(LC(J))         &kp LA(LC(D))      &kp LA(LC(F))      &kp LA(LC(G))         &kp LA(LC(K))          &trans
+                        &trans                                 &trans                               &trans                 &trans                &trans             &trans
             >;
-
-            label = "MNAP";
         };
 
         wnap {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &kp PRINTSCREEN  &trans  &trans  &kp LG(UP)  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &kp LG(TAB)  &trans  &kp LG(LS(LEFT))  &kp LG(LEFT)  &kp LG(DOWN)  &kp LG(RIGHT)  &kp LG(LS(RIGHT))  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            display-name = "WNAP";
+            bindings = 
+&trans  &trans  &trans  &trans     &trans       &kp PSCRN         &trans           &trans       &kp LG(UP)    &trans        &trans            &trans
+&trans  &trans  &trans  &trans     &kp LG(TAB)  &trans            &kp LG(LS(LEFT)) &kp LG(LEFT) &kp LG(DOWN)  &kp LG(RIGHT) &kp LG(LS(RIGHT)) &trans
+&trans  &trans  &trans  &trans     &trans       &trans            &trans           &trans       &trans        &trans        &trans            &trans
+                        &trans     &trans       &trans            &trans           &trans       &trans
             >;
-
-            label = "WNAP";
         };
     };
 };
