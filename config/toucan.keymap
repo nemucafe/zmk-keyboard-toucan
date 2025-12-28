@@ -70,21 +70,21 @@
         bt0_l0: bt0_l0 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&bt BT_SEL 0 &to BASE>;
+            bindings = <&bt BT_SEL 0 &to 0>;
             label = "BT0_L0";
         };
 
         bt1_l0: bt1_l0 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&bt BT_SEL 1 &to BASE>;
+            bindings = <&bt BT_SEL 1 &to 0>;
             label = "BT1_L0";
         };
 
         bt4_l1: bt4_l1 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&bt BT_SEL 4 &to WIN>;
+            bindings = <&bt BT_SEL 4 &to 1>;
             label = "BT4_L1";
         };
     };
@@ -110,7 +110,7 @@
 &kp ESCAPE  &kp Q       &kp W       &kp E        &kp R        &kp T          &kp Y      &kp U        &kp I        &kp O       &kp P          &kp BSPC
 &kp LCTRL   &hml LGUI A &hml LALT S &hml LCTRL D &hml LSHFT F &kp G          &kp H      &hmr RSHFT J &hmr RCTRL K &hmr RALT L &hmr RGUI SEMI &kp SQT
 &kp LSHFT   &kp Z       &kp X       &kp C        &kp V        &kp B          &kp N      &kp M        &kp COMMA    &kp DOT     &kp FSLH       &kp ESC
-                                    &mtq LGUI LANG2 &ltq NAV SPACE &kp LEFT_ALT   &mo MAU &ltq SYM ENTER &ltq MNAP LANG1
+                                    &mtq LGUI LANG2 &ltq 2 SPACE &kp LEFT_ALT   &mo 4 &ltq 3 ENTER &ltq 5 LANG1
             >;
         };
 
@@ -120,7 +120,7 @@
 &kp ESCAPE  &kp Q       &kp W       &kp E        &kp R        &kp T          &kp Y      &kp U        &kp I        &kp O       &kp P          &kp BSPC
 &kp LCTRL   &hml LGUI A &hml LALT S &hml LCTRL D &hml LSHFT F &kp G          &kp H      &hmr RSHFT J &hmr RCTRL K &hmr RALT L &hmr RGUI SEMI &kp SQT
 &kp LSHFT   &kp Z       &kp X       &kp C        &kp V        &kp B          &kp N      &kp M        &kp COMMA    &kp DOT     &kp FSLH       &kp ESC
-                                    &mtq LCTRL LANG2 &ltq NAV SPACE &kp LEFT_ALT   &mo MAU &ltq SYM ENTER &ltq WNAP LANG1
+                                    &mtq LCTRL LANG2 &ltq 2 SPACE &kp LEFT_ALT   &mo 4 &ltq 3 ENTER &ltq 6 LANG1
             >;
         };
 
@@ -149,7 +149,7 @@
             bindings = 
 &bootloader    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4     &mkp MB4  &mkp MB5  &kp C_VOL_UP    &trans  &trans  &bootloader
 &bt BT_CLR     &bt0_l0       &bt1_l0       &trans        &trans        &bt4_l1          &mkp MB2  &trans    &kp C_VOL_DOWN  &trans  &trans  &trans
-&studio_unlock &to BASE      &to WIN       &trans        &trans        &trans           &mkp MB3  &trans    &kp C_MUTE      &trans  &trans  &trans
+&studio_unlock &to 0         &to 1         &trans        &trans        &trans           &mkp MB3  &trans    &kp C_MUTE      &trans  &trans  &trans
                                            &trans        &trans        &trans           &trans    &trans    &trans
             >;
         };
