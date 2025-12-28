@@ -4,17 +4,38 @@
 #include <dt-bindings/zmk/pointing.h>
 
 #define BASE 0
-#define NAV  1
-#define SYM  2
-#define ADJ  3
+#define WIN  1
+#define NAV  2
+#define SYM  3
+#define MAU  4
+#define MNAP 5
+#define WNAP 6
 
 / {
-    conditional_layers {
-        compatible = "zmk,conditional-layers";
+    // 既存のhold-tap設定を上書き
+    behaviors {
+        // モッドタップ（&mt）の設定を上書き
+        mt: mod_tap {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&kp>;
+            hold-trigger-on-release;
+        };
 
-        tri_layer {
-            if-layers = <2 3>;
-            then-layer = <7>;
+        // レイヤータップ（&lt）の設定を上書き
+        lt: layer_tap {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            bindings = <&mo>, <&kp>;
+            hold-while-undecided;
         };
     };
 
